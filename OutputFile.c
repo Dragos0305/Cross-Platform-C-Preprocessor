@@ -2,8 +2,7 @@
 
 void addLine(OutputFile* FILE, char* line)
 {
-	
-	 if(!strlen(line))
+	if( !strlen(line) )
 	 	return;
 		
 	if (FILE->number_of_lines == 0) {

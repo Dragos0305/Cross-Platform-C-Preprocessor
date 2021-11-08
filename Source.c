@@ -46,6 +46,19 @@ int main(int argc, char const* argv[])
 
     }
    
+
+    if(filename == NULL) {
+
+        filename = strdup("stdin");
+        FILE*fp = fopen(filename,"w");
+
+        char content[256];
+        while(fgets(content,256,stdin)!=NULL)
+            fprintf(fp,"%s\n",content);
+
+        fclose(fp);
+   }
+
     collectMacros(&HM, filename,OF);
     replaceMacros(filename, HM,OF);
 
