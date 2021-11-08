@@ -2,9 +2,9 @@
 
 void addLine(OutputFile* FILE, char* line)
 {
-	printf("Linia este: %s\n",line);
-	// if(!strlen(line))
-	// 	return;
+	
+	 if(!strlen(line))
+	 	return;
 		
 	if (FILE->number_of_lines == 0) {
 

@@ -48,10 +48,10 @@ char* getFIleContent(const char* filename) {
 
     //long file_size = getFileSize(fp);
     //char* content = (char*)malloc(file_size + 1);
-    char content[256];
+    char content[1024];
     DIE(content == NULL, "Malloc error");
 
-    rc = fread(content, sizeof(char), 256, fp);
+    rc = fread(content, sizeof(char), 1024, fp);
     content[rc] = '\0';
 
     char*return_value = (char*)malloc(strlen(content)+1);
