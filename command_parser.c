@@ -29,6 +29,9 @@ void parse_D_FLAG(char const* args[], int* index, hashMap* HM)
 			insertKeyValue(HM, key_value[0], key_value[1]);
 		else
 			insertKeyValue(HM, key_value[0], (char*)" ");
+
+		free(key_value);
+		key_value = NULL;
 	}
 	else {
 
@@ -40,8 +43,10 @@ void parse_D_FLAG(char const* args[], int* index, hashMap* HM)
 		else
 			insertKeyValue(HM, key_value[0], (char*)" ");
 
+		free(key_value);
+		key_value = NULL;
 	}
-
+	
 }
 
 char* parse_I_FLAG(char const* args[], int* index)

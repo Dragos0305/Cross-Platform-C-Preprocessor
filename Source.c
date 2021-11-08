@@ -2,7 +2,7 @@
 #include "algorithms.h" 
 #include "preprocessor.h"
 #include "utils.h"
-#include "Outputfile.h"
+#include "OutputFile.h"
 #include "command_parser.h"
 
 int main(int argc, char const* argv[])
@@ -16,7 +16,7 @@ int main(int argc, char const* argv[])
     initFile(OF);
 
     char* filename = NULL;
-
+    char* output_filename = NULL;
     for (int i = 1; i < argc; i++) {
 
         int FlagType = getFlagType(argv[i]);
@@ -27,12 +27,13 @@ int main(int argc, char const* argv[])
         case D_FLAG:
             parse_D_FLAG(argv, &i, &HM);
             break;
-        case I_FLAG:
-            char* path = parse_I_FLAG(argv,&i);
+        case I_FLAG: ;
+            char* path; 
+            path = parse_I_FLAG(argv,&i);
             addPath(OF,path);
             break;
         case O_FLAG:
-            filename = parse_O_FLAG(argv, &i);
+            output_filename = parse_O_FLAG(argv, &i);
             DIE(filename == NULL, "Filename error");
             break;
         case INFILE:
@@ -47,11 +48,23 @@ int main(int argc, char const* argv[])
    
     collectMacros(&HM, filename,OF);
     replaceMacros(filename, HM,OF);
-    printContent(OF);
 
-    free(OF->lines);
-    free(OF);
    
+
+    if(output_filename !=NULL) {
+            FILE*to_write = fopen(output_filename,"w");
+            SaveContent(to_write,OF);
+    }else
+            printContent(OF);
+
+    for(int i=0;i<OF->number_of_lines;i++)
+        free(OF->lines[i]);
+
+    
+    free(OF->lines);
+    free(filename);
+    free(OF);
+    free_map(&HM);
     
 
 

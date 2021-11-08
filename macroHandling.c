@@ -1,6 +1,6 @@
 #include "macroHandling.h"
 #include "preprocessor.h"
-
+#include <limits.h>
 int getMacroType(char* content)
 {
 
@@ -140,6 +140,7 @@ void undef(char* content, hashMap* HM) {
 int findKey(char** keys, int lenght_of_keys, char* content, int* number_of_chars) {
 
     if(lenght_of_keys == 0) {
+        
         *number_of_chars = strlen(content);
         return -1;
     }
@@ -284,7 +285,8 @@ void Parse_IF(char** lines, int* start_index, OutputFile* FILE, hashMap* HM)
     memset(content, 0, sizeof(content));
 
     char* find_end = strstr(lines[*start_index], "#endif");
-
+    if (find_end != NULL)
+        return;
     while (1) {
 
         //Parse if statement
@@ -370,6 +372,18 @@ void Parse_IF(char** lines, int* start_index, OutputFile* FILE, hashMap* HM)
 
 }
 
+int check_guard(FILE*fp) {
+
+    char line[100];
+    fgets(line,100,fp);
+    
+    if(!strncmp(line,"#ifndef",strlen("#ifndef")))
+        return 1;
+    else
+        return 0;
+
+}
+
 void Parse_Include_Directives(OutputFile* OF, hashMap* HM, char* include_directive) {
 
     char* header_name = strstr(include_directive,"\"") + 1;
@@ -379,12 +393,15 @@ void Parse_Include_Directives(OutputFile* OF, hashMap* HM, char* include_directi
     FILE* test_exist = fopen(header_name, "r");
 
     if (test_exist != NULL) {
-       collectMacros(HM, header_name, OF);
-       return;
+
+        
+            collectMacros(HM, header_name, OF);
+            return;
+        
     }
     
     if (OF->number_of_paths == 0) {
-       //EXIT WITH ERROR
+       exit(12);
     }
     else {
 
@@ -406,7 +423,7 @@ void Parse_Include_Directives(OutputFile* OF, hashMap* HM, char* include_directi
 
     }
 
-
+    exit(12);
 
     
 

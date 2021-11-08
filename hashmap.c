@@ -18,10 +18,10 @@ void insertKeyValue(hashMap* HM, char* key, char* value) {
 	DIE(aux == NULL, "Malloc error");
 
 
-	aux->key = (char*)malloc(sizeof(char) * strlen(key));
+	aux->key = (char*)malloc(sizeof(char) * (strlen(key)+1));
 	DIE(aux->key == NULL, "Malloc error");
 
-	aux->value = (char*)malloc(sizeof(char) * strlen(value));
+	aux->value = (char*)malloc(sizeof(char) * (strlen(value)+1));
 	DIE(aux->value == NULL, "Malloc error");
 
 	strcpy(aux->key, key);
@@ -112,7 +112,8 @@ char** getKeys(hashMap HM, int* number_of_keys) {
 		return NULL;
 	}
 
-	char** keys = (char**)malloc(sizeof(char*) * HM.numElements);
+	char** keys = NULL;
+	keys = (char**)malloc(sizeof(char*) * HM.numElements);
 	DIE(keys == NULL, "Malloc error");
 	unsigned int count = 0;
 	for (int i = 0; i < M; i++) {
@@ -127,7 +128,7 @@ char** getKeys(hashMap HM, int* number_of_keys) {
 
 
 				strcpy(keys[count], HM.buckets[i]->key);
-				keys[count][size] = '\0';
+				//keys[count][size] = '\0';
 				count++;
 				HM.buckets[i] = HM.buckets[i]->next;
 			}
@@ -157,5 +158,22 @@ void printHashMAp(hashMap HM) {
 		}
 
 	}
+
+}
+
+void free_map(hashMap*HM) {
+
+for (size_t i = 0; i < M; i++)
+{
+	if(HM->buckets[i] != NULL) {
+
+		while(HM->buckets[i] != NULL)
+			removeNodeHeadOfList(&HM->buckets[i]);
+
+	}
+}
+
+
+
 
 }

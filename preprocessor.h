@@ -3,7 +3,7 @@
 
 #include "hashmap.h"
 #include  "algorithms.h"
-#include "Outputfile.h"
+#include "OutputFile.h"
 
 void collectMacros(hashMap* HM, const char*,OutputFile*);
 void replaceMacros(const char*, hashMap,OutputFile*);

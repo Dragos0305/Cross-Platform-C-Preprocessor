@@ -10,4 +10,5 @@ char* parse_I_FLAG(char const* args[], int* index);
 char* parse_O_FLAG(char const* args[], int* index);
 char* infile(char const* filename);
 
+
 #endif

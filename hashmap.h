@@ -25,7 +25,7 @@ void initHashMap(hashMap* HM);
 char** getKeys(hashMap HM, int* number_of_keys);
 void printHashMAp(hashMap HM);
 void insertKeyValue(hashMap* HM, char* key, char* value);
-
+void free_map(hashMap*HM);
 
 
 

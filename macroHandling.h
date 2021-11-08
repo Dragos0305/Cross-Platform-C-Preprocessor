@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include "utils.h"
 #include "algorithms.h"
-#include "Outputfile.h"
+#include "OutputFile.h"
 
 
 int getMacroType(char* content);

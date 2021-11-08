@@ -3,9 +3,10 @@
 
 char** split_string(char* str, int* lenght, const char* delim) {
 
+    
     char** splits = NULL;
     char* token = strtok(str, delim);
-
+    
     int spaces = 0;
 
     while (token) {
@@ -45,13 +46,16 @@ char* getFIleContent(const char* filename) {
         exit(1);
     }
 
-    long file_size = getFileSize(fp);
-    char* content = (char*)malloc(file_size + 1);
+    //long file_size = getFileSize(fp);
+    //char* content = (char*)malloc(file_size + 1);
+    char content[256];
     DIE(content == NULL, "Malloc error");
 
-    rc = fread(content, sizeof(char), file_size, fp);
+    rc = fread(content, sizeof(char), 256, fp);
     content[rc] = '\0';
-    
+
+    char*return_value = (char*)malloc(strlen(content)+1);
+    strcpy(return_value,content);    
 
     if (!rc) {
         fprintf(stderr, "Can't read content\n");
@@ -60,7 +64,7 @@ char* getFIleContent(const char* filename) {
     
     fclose(fp);
 
-    return content;
+    return return_value;
 }
 
 long getFileSize(FILE* fp) {

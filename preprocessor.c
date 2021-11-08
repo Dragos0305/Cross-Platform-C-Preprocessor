@@ -8,12 +8,12 @@ void collectMacros(hashMap* HM, const char* filename, OutputFile* OF) {
     char* content = getFIleContent(filename);
     int number_of_lines;
     char** lines = split_string(content, &number_of_lines, "\n");
-
+    printf("Numarul de linii este: %d\n",number_of_lines);
 
     for (int i = 0; i < number_of_lines; i++) {
 
         int define_type = getMacroType(lines[i]);
-
+        printf("Macrotype-ul este: %d\n",define_type);
         switch (define_type)
         {
         case ONE_LINE_DEFINE:
@@ -30,6 +30,7 @@ void collectMacros(hashMap* HM, const char* filename, OutputFile* OF) {
             break;
         case IF_BLOCK:
             Parse_IF(lines, &i, OF, HM);
+            printf("Am iesit de aici cu i= %d",i);
             break;
         case INCLUDE_DIRECTIVE:
             Parse_Include_Directives(OF, HM, lines[i]);
@@ -46,9 +47,16 @@ void collectMacros(hashMap* HM, const char* filename, OutputFile* OF) {
    
    
     
+    // for (int i = 0; i < number_of_lines; i++)
+    // {
+    //     free(lines[i]);
+    //     lines[i] = NULL;
+    // }
+    
     free(lines);
     lines = NULL;
     free(content);
+    content = NULL;
 }
 
 
@@ -131,6 +139,15 @@ void replaceMacros(const char* filename, hashMap HM,OutputFile* OF) {
            OF->lines[i] = OF->lines[i] - position_reminder;
            memcpy(OF->lines[i], modified_line,strlen(modified_line));
            OF->lines[i][strlen(modified_line)] = '\0';
-            
+           
+           
     }
+    
+    for (int i = 0; i < number_of_keys; i++)
+    {
+        free(keys[i]);
+        keys[i] = NULL;
+    }
+    free(keys);
+    
 }

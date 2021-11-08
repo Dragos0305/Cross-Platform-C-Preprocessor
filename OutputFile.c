@@ -1,7 +1,11 @@
-#include "Outputfile.h"
+#include "OutputFile.h"
 
 void addLine(OutputFile* FILE, char* line)
 {
+	printf("Linia este: %s\n",line);
+	// if(!strlen(line))
+	// 	return;
+		
 	if (FILE->number_of_lines == 0) {
 
 		FILE->lines = (char**)malloc(sizeof(char*));
@@ -20,7 +24,7 @@ void addLine(OutputFile* FILE, char* line)
 		FILE->lines = (char**)realloc(FILE->lines, sizeof(char*) * ++(FILE->number_of_lines));
 		DIE(FILE->lines == NULL, "Realloc error");
 
-		FILE->lines[FILE->number_of_lines - 1] = (char*)malloc(sizeof(char) * strlen(line));
+		FILE->lines[FILE->number_of_lines - 1] = (char*)malloc(sizeof(char) * (strlen(line) +1));
 		DIE(FILE->lines[FILE->number_of_lines - 1] == NULL, "Malloc error");
 
 		strcpy(FILE->lines[FILE->number_of_lines - 1], line);
