@@ -2,6 +2,7 @@
     "files.associations": {
         "macrohandling.h": "c",
         "outputfile.h": "c",
-        "list.h": "c"
+        "list.h": "c",
+        "hashmap.h": "c"
     }
 }

@@ -53,7 +53,7 @@ char* getFIleContent(const char* filename) {
 
     rc = fread(content, sizeof(char), 1024, fp);
     content[rc] = '\0';
-
+   
     char*return_value = (char*)malloc(strlen(content)+1);
     strcpy(return_value,content);    
 

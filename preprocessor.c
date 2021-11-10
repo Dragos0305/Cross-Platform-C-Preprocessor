@@ -31,7 +31,6 @@ void collectMacros(hashMap* HM, const char* filename, OutputFile* OF) {
             break;
         case IF_BLOCK:
             Parse_IF(lines, &i, OF, HM);
-            
             break;
         case INCLUDE_DIRECTIVE:
             Parse_Include_Directives(OF, HM, lines[i]);
@@ -79,6 +78,7 @@ void replaceMacros(const char* filename, hashMap HM,OutputFile* OF) {
              
             memset(OF->lines[i],0,strlen(OF->lines[i]));
             strcpy(OF->lines[i], "\n\0");
+            free(keys);
             keys = getKeys(HM, &number_of_keys);
             i++;
             
@@ -138,6 +138,7 @@ void replaceMacros(const char* filename, hashMap HM,OutputFile* OF) {
             }
 
            OF->lines[i] = OF->lines[i] - position_reminder;
+           OF->lines[i] = (char*)realloc(OF->lines[i],strlen(modified_line)+1);
            memcpy(OF->lines[i], modified_line,strlen(modified_line));
            OF->lines[i][strlen(modified_line)] = '\0';
            

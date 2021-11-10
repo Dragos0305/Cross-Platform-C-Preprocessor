@@ -62,6 +62,7 @@ void add_one_line_define(char* content, hashMap* HM) {
     }
 
     insertKeyValue(HM, key, value);
+    free(words);
 }
 
 void add_multi_line_define(char** content, hashMap* HM, int* start_index) {
@@ -87,7 +88,7 @@ void add_multi_line_define(char** content, hashMap* HM, int* start_index) {
     }
 
     *start_index = *start_index + 1;
-
+    free(words);
     while (strstr(content[*start_index], "\\")) {
 
         char** words = split_string(content[*start_index], &number_of_words, " \t\\");
@@ -104,7 +105,7 @@ void add_multi_line_define(char** content, hashMap* HM, int* start_index) {
         }
 
         *start_index = *start_index + 1;
-
+        free(words);
     }
 
     words = split_string(content[*start_index], &number_of_words, " ");
@@ -122,6 +123,7 @@ void add_multi_line_define(char** content, hashMap* HM, int* start_index) {
     }
 
     insertKeyValue(HM, key, value);
+    free(words);
     //start_index = *start_index + 1;
 
 
@@ -390,13 +392,17 @@ void Parse_Include_Directives(OutputFile* OF, hashMap* HM, char* include_directi
     DIE(header_name == NULL, "No header name");
     header_name[strlen(header_name) - 1] = '\0';
     //collectMacros(HM, header_name, OF);
-    FILE* test_exist = fopen(header_name, "r");
-
+    char path[100];
+    memset(path, 0, 100);
+    strcpy(path,"_test/inputs/");
+    strcat(path,header_name);
+    FILE* test_exist = fopen(path, "r");
+    
     if (test_exist != NULL) {
 
-        
-            collectMacros(HM, header_name, OF);
-            return;
+       
+        collectMacros(HM, path, OF);
+        return;
         
     }
     
@@ -410,18 +416,21 @@ void Parse_Include_Directives(OutputFile* OF, hashMap* HM, char* include_directi
            char path[100];
            memset(path, 0, 100);
            strcpy(path, OF->paths[i]);
-           strcat(path,"\\");
+           strcat(path,"/");
            strcat(path, header_name);
-           
+          
            test_exist = fopen(path, "r");
 
            if (test_exist != NULL) {
+               fclose(test_exist);
+               
                collectMacros(HM, path, OF);
                return;
            }
        }
 
     }
+
 
     exit(12);
 
@@ -448,23 +457,27 @@ int check_else(char** lines, int start_index)
 int get_endif_position(char** lines, int start_index)
 {
     listNode* head = NULL;
-    insertNodeHeadOfList(&head, lines[start_index], (char*)" ");
+    char*blank_space = (char*)malloc(sizeof(char)+1);
+    strcpy(blank_space," ");
+    insertNodeHeadOfList(&head, lines[start_index], blank_space);
     start_index++;
 
     while (1) {
 
         if (!strncmp(lines[start_index], "#ifdef", strlen("#ifdef")) || !strncmp(lines[start_index], "#ifndef", strlen("#ifndef"))) {
-            insertNodeHeadOfList(&head, lines[start_index], (char*)" ");
+            insertNodeHeadOfList(&head, lines[start_index], blank_space);
             
         }
         if (!strncmp(lines[start_index], "#endif", strlen("#endif"))) {
             removeNodeHeadOfList(&head);
-            if (head == NULL)
+            if (head == NULL){
+                free(blank_space);
                 return start_index;
+            }
         }
         start_index++;
     }
-
+    
     return 0;
 }
 

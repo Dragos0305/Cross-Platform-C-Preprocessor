@@ -37,7 +37,10 @@ int main(int argc, char const* argv[])
             DIE(filename == NULL, "Filename error");
             break;
         case INFILE:
-            filename = infile(argv[i]);
+            if(!filename)
+                filename = infile(argv[i]);
+            else
+                exit(12);
             break;
         default:
             exit(12);
@@ -77,6 +80,7 @@ int main(int argc, char const* argv[])
     free(OF->lines);
     free(filename);
     free(OF);
+    OF = NULL;
     free_map(&HM);
     
 

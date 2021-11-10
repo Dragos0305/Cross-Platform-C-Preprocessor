@@ -14,13 +14,15 @@ int hash(const char* str) {
 
 void insertKeyValue(hashMap* HM, char* key, char* value) {
 
-	listNode* aux = (listNode*)malloc(sizeof(listNode));
+	listNode* aux = NULL;
+	aux = (listNode*)malloc(sizeof(listNode));
 	DIE(aux == NULL, "Malloc error");
 
-
+	//aux->key = NULL;
 	aux->key = (char*)malloc(sizeof(char) * (strlen(key)+1));
 	DIE(aux->key == NULL, "Malloc error");
 
+	//aux->key = NULL;
 	aux->value = (char*)malloc(sizeof(char) * (strlen(value)+1));
 	DIE(aux->value == NULL, "Malloc error");
 
@@ -68,9 +70,9 @@ char* getValue(hashMap HM, const char* key) {
 
 void removeKey(hashMap* HM, const char* key) {
 
-	listNode* p;
+	listNode* p = NULL;
 	p = HM->buckets[hash(key)];
-	int ok = 0;
+	//int ok = 0;
 	int count = 0;
 	while (p != NULL)
 	{
