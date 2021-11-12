@@ -19,8 +19,9 @@ int main(int argc, char const* argv[])
     char* output_filename = NULL;
     for (int i = 1; i < argc; i++) {
 
+        //printf("I ul este: %d\n",i);
         int FlagType = getFlagType(argv[i]);
-
+        
         switch (FlagType)
         {
 
@@ -31,6 +32,7 @@ int main(int argc, char const* argv[])
             char* path; 
             path = parse_I_FLAG(argv,&i);
             addPath(OF,path);
+            //printf("Pathul este: %s\n",OF->paths[OF->number_of_paths-1]);
             break;
         case O_FLAG:
             output_filename = parse_O_FLAG(argv, &i);
@@ -39,6 +41,8 @@ int main(int argc, char const* argv[])
         case INFILE:
             if(!filename)
                 filename = infile(argv[i]);
+            else if (!output_filename)
+                output_filename = infile(argv[i]);
             else
                 exit(12);
             break;
@@ -49,7 +53,7 @@ int main(int argc, char const* argv[])
 
     }
    
-
+    
     if(filename == NULL) {
 
         filename = strdup("stdin");

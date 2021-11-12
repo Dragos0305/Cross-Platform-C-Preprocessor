@@ -3,6 +3,7 @@
         "macrohandling.h": "c",
         "outputfile.h": "c",
         "list.h": "c",
-        "hashmap.h": "c"
+        "hashmap.h": "c",
+        "preprocessor.h": "c"
     }
 }

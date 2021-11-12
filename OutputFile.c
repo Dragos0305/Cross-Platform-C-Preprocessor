@@ -43,7 +43,7 @@ void printContent(OutputFile* FILE) {
 void initFile(OutputFile* FILE) {
 
 	FILE->lines = NULL;
-	FILE->paths = NULL;
+	//FILE->paths = NULL;
 	FILE->number_of_lines = 0;
 	FILE->number_of_paths = 0;
 }
@@ -58,29 +58,33 @@ void SaveContent(FILE* to_write, OutputFile* FILE) {
 
 void addPath(OutputFile* FILE, char* path) {
 
-	if (FILE->number_of_paths == 0) {
 
-		FILE->paths = (char**)malloc(sizeof(char*));
-		DIE(FILE->paths == NULL, "Malloc error");
 
-		FILE->paths[FILE->number_of_paths] = (char*)malloc(sizeof(char) * strlen(path) + 1);
-		DIE(FILE->paths[FILE->number_of_paths] == 0, "Error malloc");
+	strcpy(FILE->paths[FILE->number_of_paths++],path);
+	
+	// if (FILE->number_of_paths == 0) {
 
-		strcpy(FILE->paths[FILE->number_of_paths], path);
-		FILE->number_of_paths++;
+	// 	FILE->paths = (char**)malloc(sizeof(char*));
+	// 	DIE(FILE->paths == NULL, "Malloc error");
 
-	}
-	else if (FILE->number_of_paths > 0) {
+	// 	FILE->paths[FILE->number_of_paths] = (char*)malloc(sizeof(char) * (strlen(path) + 1));
+	// 	DIE(FILE->paths[FILE->number_of_paths] == 0, "Error malloc");
+
+	// 	strcpy(FILE->paths[FILE->number_of_paths], path);
+	// 	FILE->number_of_paths++;
+
+	// }
+	// else if (FILE->number_of_paths > 0) {
 		
-		DIE(FILE->paths == NULL, "Passing NULL pointer to realloc");
-		FILE->paths = (char**)realloc(FILE->lines, sizeof(char*) * ++(FILE->number_of_paths));
-		DIE(FILE->paths == NULL, "Realloc error");
+	// 	DIE(FILE->paths == NULL, "Passing NULL pointer to realloc");
+	// 	FILE->paths = (char**)realloc(FILE->lines, sizeof(char*) * ++(FILE->number_of_paths));
+	// 	DIE(FILE->paths == NULL, "Realloc error");
 
-		FILE->paths[FILE->number_of_paths - 1] = (char*)malloc(sizeof(char) * strlen(path));
-		DIE(FILE->paths[FILE->number_of_paths - 1] == NULL, "Malloc error");
+	// 	FILE->paths[FILE->number_of_paths - 1] = (char*)malloc(sizeof(char) * (strlen(path)+1));
+	// 	DIE(FILE->paths[FILE->number_of_paths - 1] == NULL, "Malloc error");
 
-		strcpy(FILE->paths[FILE->number_of_paths - 1], path);
-	}
+	// 	strcpy(FILE->paths[FILE->number_of_paths - 1], path);
+	// }
 
 
 }

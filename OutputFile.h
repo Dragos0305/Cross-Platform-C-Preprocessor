@@ -10,7 +10,7 @@ typedef struct OutputFile {
 
 	char** lines;
 	int number_of_lines;
-	char** paths;
+	char paths[100][100];
 	int number_of_paths;
 }OutputFile;
 

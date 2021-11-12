@@ -411,20 +411,22 @@ void Parse_Include_Directives(OutputFile* OF, hashMap* HM, char* include_directi
     }
     else {
 
+        //printf("Numar de pathuri: %d",OF->number_of_paths);
+        //printf("Path 1: %s\n",OF->paths[0]);
        for (int i = 0; i < OF->number_of_paths; i++) {
 
-           char path[100];
-           memset(path, 0, 100);
-           strcpy(path, OF->paths[i]);
-           strcat(path,"/");
-           strcat(path, header_name);
+           char path2[100];
+           memset(path2, 0, 100);
+           //printf("%s\n",OF->paths[i]);
+           strcpy(path2, OF->paths[i]);
+           strcat(path2,"/");
+           strcat(path2, header_name);
           
-           test_exist = fopen(path, "r");
-
+           test_exist = fopen(path2, "r");
+            
            if (test_exist != NULL) {
                fclose(test_exist);
-               
-               collectMacros(HM, path, OF);
+               collectMacros(HM, path2, OF);
                return;
            }
        }

@@ -1,6 +1,7 @@
 CC = gcc
 CFLAGS = -Wall -g
 
+build: so-cpp
 
 so-cpp: Source.o preprocessor.o macroHandling.o command_parser.o algorithms.o hashmap.o list.o OutputFile.o
 	$(CC) $(CFLAGS) $^ -o $@
